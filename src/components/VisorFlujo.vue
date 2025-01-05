@@ -19,11 +19,33 @@ const transformData = (data) => {
 };
 
 const lab = ref(transformData(json));
+// Reactive states for highlighting
+const highlightedRow = ref(null);
+const highlightedColumn = ref(null);
+
+// Highlight functions
+const highlightRow = (rowIndex) => {
+  highlightedRow.value = rowIndex;
+};
+
+const highlightColumn = (colIndex) => {
+  highlightedColumn.value = colIndex;
+};
+
+const highlightCell = (rowIndex, colIndex) => {
+  highlightedRow.value = rowIndex;
+  highlightedColumn.value = colIndex;
+};
+
+const clearHighlight = () => {
+  highlightedRow.value = null;
+  highlightedColumn.value = null;
+};
 
 </script>
 
 <template>
-  <h1>Tabla</h1>
+  <h1>Flujo de examenes</h1>
 
     <div class="table-container">
 
@@ -35,11 +57,28 @@ const lab = ref(transformData(json));
             </tr>
             </thead>
             <tbody>
-            <!-- Crear filas dinámicamente -->
-            <tr v-for="(item, index) in lab" :key="index">
-                <td v-for="key in Object.keys(item)" :key="key">{{ item[key] }}</td>
-            </tr>
-            </tbody>
+        <!-- Crear filas dinámicamente -->
+        <tr
+          v-for="(item, rowIndex) in lab"
+          :key="rowIndex"
+          @mouseover="highlightRow(rowIndex)"
+          @mouseleave="clearHighlight"
+          :class="{'highlight-row': highlightedRow === rowIndex}"
+        >
+          <td
+            v-for="(value, colIndex) in Object.values(item)"
+            :key="colIndex"
+            :class="{
+              'highlight-col': highlightedColumn === colIndex,
+              'highlight-row': highlightedRow === rowIndex
+            }"
+            @mouseover="highlightCell(rowIndex, colIndex)"
+            @mouseleave="clearHighlight"
+          >
+            {{ value }}
+          </td>
+        </tr>
+      </tbody>
         </table>
     </div>
     
@@ -118,18 +157,26 @@ table th {
 /* change background in groups of 5 */
 table tr:nth-child(10n), tr:nth-child(10n-1), tr:nth-child(10n-2), tr:nth-child(10n-3), tr:nth-child(10n-4) {
   background-color: #d2d2d2;
+  color: #000;
 }
-table tr:hover {
-  background-color: #ffa2e577;
-}
-
-table th:hover {
-  background-color: #ee00ff;
-}
-table td:hover::before {
-    background-color: #33ff00;
+/* on hover, change background color of columns and rows */
+.highlight-row {
+  background-color: #ffa2e577; /* Light pink */
 }
 
+.highlight-col {
+  background-color: #00ffbb33; /* Light purple */
+}
+
+@media (preffers-color-scheme: light) {
+  .highlight-row {
+    background-color: #ff77d877; /* Light pink */
+  }
+
+  .highlight-col {
+    background-color: #1ff0b833; /* Light purple */
+  }
+}
 
 
 </style>

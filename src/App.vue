@@ -1,17 +1,17 @@
 <script setup>
 import HelloWorld from './components/HelloWorld.vue'
+import FlujoNew from './components/FlujoNew.vue'
 import IngresoLab from './components/IngresoLab.vue'
-import VisorFlujo from './components/VisorFlujo.vue'
+import IngresoLabNew from './components/IngresoLabNew.vue'
 </script>
 
 <template>
-
-  <IngresoLab />
-  <VisorFlujo />
-
+  <IngresoLabNew />
+  <FlujoNew />
+  
 </template>
 
-<style scoped>
+<style>
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -24,4 +24,7 @@ import VisorFlujo from './components/VisorFlujo.vue'
 .logo.vue:hover {
   filter: drop-shadow(0 0 2em #42b883aa);
 }
+
+
+
 </style>
