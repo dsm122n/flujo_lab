@@ -1,43 +1,38 @@
-<script>
-    export default {
-        data() {
-            return {
-                datitosLab: [],
-                highlightedRow: null,
-                highlightedColumn: null,
-                rowIndex: null,
-                colIndex: null,
-            }
-        },
-        mounted() {
-            fetch("http://localhost:3000/laboratorios")
-                .then(response => response.json())
-                .then(data => {
-                    this.datitosLab = data;
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-        },
-        methods: {
-            highlightRow(rowIndex) {
-                this.highlightedRow = rowIndex;
-            },
-            highlightColumn(colIndex) {
-                this.highlightedColumn = colIndex;
-            },
-            highlightCell(rowIndex, colIndex) {
-                this.highlightedRow = rowIndex;
-                this.highlightedColumn = colIndex;
-            },
-            clearHighlight() {
-                this.highlightedRow = null;
-                this.highlightedColumn = null;
-            },
-        }
+<script setup>
+import { ref, onMounted } from 'vue';
 
-}
+const datitosLab = ref([]);
+const highlightedRow = ref(null);
+const highlightedColumn = ref(null);
 
+const highlightRow = (rowIndex) => {
+    highlightedRow.value = rowIndex;
+};
+
+const highlightColumn = (colIndex) => {
+    highlightedColumn.value = colIndex;
+};
+
+const highlightCell = (rowIndex, colIndex) => {
+    highlightedRow.value = rowIndex;
+    highlightedColumn.value = colIndex;
+};
+
+const clearHighlight = () => {
+    highlightedRow.value = null;
+    highlightedColumn.value = null;
+};
+
+onMounted(() => {
+    fetch("http://localhost:3000/laboratorios")
+        .then((response) => response.json())
+        .then((data) => {
+            datitosLab.value = data;
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+});
 </script>
 
 <template>
@@ -45,7 +40,7 @@
 
     <div v-if="datitosLab.length > 0">
         <div class="table-container">
-            <table class="vertical">
+            <table class="vertical" id="table-for-print">
                 <thead>
                     <tr>
                         <th v-for="key in Object.keys(datitosLab[0])" :key="key"> {{ key }}</th>
@@ -57,8 +52,7 @@
                         :key="rowIndex"
                         @mouseover="highlightRow(rowIndex)"
                         @mouseleave="clearHighlight"
-                        :class="{ 'highlight-row': highlightedRow === rowIndex }"
-                    >
+                        :class="{ 'highlight-row': highlightedRow === rowIndex }">
                         <td 
                             v-for="(value, colIndex) in Object.values(item)" 
                             :key="colIndex"
@@ -67,8 +61,7 @@
                             :class="{ 
                                 'highlight-row': highlightedRow === rowIndex,
                                 'highlight-col': highlightedColumn === colIndex
-                            }"
-                        >
+                            }">
                             {{ value }}
                         </td>
                     </tr>
@@ -78,11 +71,7 @@
     </div>
 </template>
 
-
-<style>
-
-
-
+<style scoped>
 /* Everyone Else's Grid */
 @supports (display: grid) {
   .vertical {
@@ -165,4 +154,12 @@ table tr:nth-child(10n), tr:nth-child(10n-1), tr:nth-child(10n-2), tr:nth-child(
   }
 }
 
+@media print {
+    table {
+        page-break-inside: auto;
+        font-size: 10pt;
+        background-color: #000000;
+    }
+
+}
 </style>

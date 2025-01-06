@@ -1,33 +1,37 @@
-<script>
-export default {
-    data() {
-        return {
-            fileNames: [], // Array of file names
-        };
-    },
-    methods: {
-        handleFileChange(event) {
-            const files = event.target.files;
-            this.fileNames = [];
-            for (let i = 0; i < files.length; i++) {
-                this.fileNames.push(files[i].name);
-            }
-        },
-        moveUp(index) {
-            if (index > 0) {
-                const temp = this.fileNames[index];
-                this.fileNames.splice(index, 1); // Remove the current item
-                this.fileNames.splice(index - 1, 0, temp); // Insert it one position up
-            }
-        },
-        moveDown(index) {
-            if (index < this.fileNames.length - 1) {
-                const temp = this.fileNames[index];
-                this.fileNames.splice(index, 1); // Remove the current item
-                this.fileNames.splice(index + 1, 0, temp); // Insert it one position down
-            }
-        },
-    },
+<script setup>
+import { ref } from 'vue';
+import * as pdfjsLib from "pdfjs-dist/webpack";
+
+pdfjsLib.GlobalWorkerOptions.workerSrc = require("pdfjs-dist/build/pdf.worker.js");
+
+
+const fileNames = ref([]);
+
+// Handle file change
+const handleFileChange = (event) => {
+  const files = event.target.files;
+  fileNames.value = []; // Clear the array before adding new files
+  for (let i = 0; i < files.length; i++) {
+    fileNames.value.push(files[i].name);
+  }
+};
+
+// Move file up in the list
+const moveUp = (index) => {
+  if (index > 0) {
+    const temp = fileNames.value[index];
+    fileNames.value.splice(index, 1); // Remove the current item
+    fileNames.value.splice(index - 1, 0, temp); // Insert it one position up
+  }
+};
+
+// Move file down in the list
+const moveDown = (index) => {
+  if (index < fileNames.value.length - 1) {
+    const temp = fileNames.value[index];
+    fileNames.value.splice(index, 1); // Remove the current item
+    fileNames.value.splice(index + 1, 0, temp); // Insert it one position down
+  }
 };
 </script>
 
@@ -37,24 +41,25 @@ export default {
       <div class="container-ingresos">
           <label for="link">Ingrese link aquí: </label>
           <input type="text" id="link" name="link">
-          <button>Añadir link a flujo de exámenes</button>
+          <button @click="importPDF" >Añadir link a flujo de exámenes</button>
       </div>
       <div class="container-ingresos">
           <label for="archivo">O suba los archivos aquí: </label>
-          <input type="file" id="archivo" name="archivo" accept="application/pdf" multiple ref="input" @change="handleFileChange" />
+          <input type="file" id="archivo" name="archivo" accept="application/pdf" multiple @change="handleFileChange" />
           <p>Nombres de archivos: </p>
           <ol>
               <li v-for="(file, index) in fileNames" :key="index">
-                  {{ file }}
-                  <!-- Buttons to move the file up or down -->
                   <button @click="moveUp(index)" :disabled="index === 0">↑</button>
                   <button @click="moveDown(index)" :disabled="index === fileNames.length - 1">↓</button>
+                  {{ file }}
               </li>
           </ol>
           <button>Añadir archivos a flujo de exámenes</button>
       </div>
     </div>
-  </template>
+</template>
+
+
 <style scoped>
 .container {
   display: flex;
@@ -86,4 +91,3 @@ button:disabled {
     cursor: not-allowed;
 }
 </style>
-  

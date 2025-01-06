@@ -3,10 +3,25 @@ import HelloWorld from './components/HelloWorld.vue'
 import FlujoNew from './components/FlujoNew.vue'
 import IngresoLab from './components/IngresoLab.vue'
 import IngresoLabNew from './components/IngresoLabNew.vue'
+
+
+
+
+
+// print content on FlujoNew
+const print = () => {
+  const printContent = document.getElementById('table-for-print').outerHTML;
+  const originalContent = document.body.innerHTML;
+  document.body.innerHTML = printContent;
+  window.print();
+  document.body.innerHTML = originalContent;
+};
+
 </script>
 
 <template>
   <IngresoLabNew />
+  <button @click="print">Imprimir flujo de exámenes</button>
   <FlujoNew />
   
 </template>
