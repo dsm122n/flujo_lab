@@ -1,7 +1,13 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
+import { labResults  } from "../stores/labResultsStore.js";
+import { LabResultClass } from "../models/LabResultsClass.js";
 
-const datitosLab = ref([]);
+const datitosLab = computed(() => labResults.value);
+
+console.log(datitosLab);
+console.log("Hola estos son los datitos lab");
+console.log(datitosLab.length);
 const highlightedRow = ref(null);
 const highlightedColumn = ref(null);
 
@@ -23,27 +29,27 @@ const clearHighlight = () => {
     highlightedColumn.value = null;
 };
 
-onMounted(() => {
-    fetch("http://localhost:3000/laboratorios")
-        .then((response) => response.json())
-        .then((data) => {
-            datitosLab.value = data;
-        })
-        .catch((error) => {
-            console.error(error);
-        });
-});
+// onMounted(() => {
+//     fetch("http://localhost:3000/laboratorios")
+//         .then((response) => response.json())
+//         .then((data) => {
+//             datitosLab.value = data;
+//         })
+//         .catch((error) => {
+//             console.error(error);
+//         });
+// });
 </script>
 
 <template>
-    <h1>Flujo de examenes</h1>
+    <h1>Flujo de Exámenes</h1>
 
     <div v-if="datitosLab.length > 0">
         <div class="table-container">
             <table class="vertical" id="table-for-print">
                 <thead>
                     <tr>
-                        <th v-for="key in Object.keys(datitosLab[0])" :key="key"> {{ key }}</th>
+                        <th v-for="key in Object.keys(datitosLab[0].extractedData)" :key="key"> {{ key }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -54,7 +60,7 @@ onMounted(() => {
                         @mouseleave="clearHighlight"
                         :class="{ 'highlight-row': highlightedRow === rowIndex }">
                         <td 
-                            v-for="(value, colIndex) in Object.values(item)" 
+                            v-for="(value, colIndex) in Object.values(item.extractedData)" 
                             :key="colIndex"
                             @mouseover="highlightCell(rowIndex, colIndex)"
                             @mouseleave="clearHighlight"
@@ -69,7 +75,12 @@ onMounted(() => {
             </table>
         </div>
     </div>
+
+    <div v-else>
+        <p>No hay resultados de laboratorio disponibles.</p>
+    </div>
 </template>
+
 
 <style scoped>
 /* Everyone Else's Grid */
