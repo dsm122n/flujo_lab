@@ -182,6 +182,37 @@ const handleFileChange = (event) => {
             </ol>
             <button @click="importPDFArchivo" id="boton-archivo" >Añadir archivos a flujo de exámenes</button>
         </div>
+        <div>
+            <h1>Cómo usar</h1>
+    <p>Para añadir un archivo PDF al flujo de exámenes, puedes:</p>
+    <ul>
+        <li><span class="highlight">Ingresar el link del SysLab</span> que aparece cuando abres un examen:
+            <ol>
+                <li>Copia y pega el link en el campo de texto.</li>
+                <li>Haz click en el botón <span class="highlight">"Añadir link a flujo de exámenes"</span>.</li>
+            </ol>
+        </li>
+        <li><span class="highlight">Subir el archivo PDF directamente</span>:
+            <ol>
+                <li>Haz click en el botón <span class="highlight">"Seleccionar archivo"</span> o arrastra uno o varios archivos PDF al recuadro central.</li>
+                <li>Selecciona uno o varios archivos PDF.</li>
+                <li>Haz click en el botón <span class="highlight">"Añadir archivos a flujo de exámenes"</span>.</li>
+            </ol>
+        </li>
+    </ul>
+    <p>Puedes <span class="funcionalidad">añadirlos</span> de forma individual o en grupo. Los archivos se ordenarán por fecha del examen.<br>
+    Si deseas <span class="funcionalidad">eliminar</span> un día de laboratorio, puedes hacerlo con el botón rojo <button class="boton-eliminar-columnas"></button> 
+    desde la tabla de resultados.<br>
+    Luego puedes <span class="funcionalidad">imprimir</span> la tabla de resultados con el botón <span class="highlight">"Imprimir flujo de exámenes"</span>.</p>
+
+    <p><span class="important">Nota:</span> todavía tiene un par de <span class="important">errores</span>, por ejemplo:</p>
+    <ul>
+        <li>No puede imprimir más de una página :( habría que ingresar de a poco los exámenes para que no superen la página.</li>
+        <li>Algunos exámenes no los lee (por ejemplo, TP seg y TP%).</li>
+    </ul>
+
+    <p>Si pillas otro error, avísame por favor! -> <a href="mailto:dsm122n@gmail.com">dsm122n@gmail.com</a></p>
+        </div>
     </div>
 </template>
 
@@ -229,5 +260,13 @@ input[type="file"] {
     justify-content: center;
     align-items: center;
     height: 100%;
+}
+.boton-eliminar-columnas {
+    background-color: #ff0000;
+    color: #ffffff;
+    height: 2em;
+    width: 2em;
+    /* centrar */
+
 }
 </style>

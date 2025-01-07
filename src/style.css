@@ -87,3 +87,25 @@ button:focus-visible {
     color: #000000;
   }
 }
+
+.highlight {
+  background-color: #e7f3fe9d;
+  color: #003366;
+  font-weight: bold;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+.important {
+  color: #856404;
+  background-color: #fff3cd8e;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+.funcionalidad{
+  color: #690485;
+  background-color: #cdefff80;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-weight: bold;
+}

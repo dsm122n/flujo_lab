@@ -74,7 +74,7 @@ const deleteRow = (index) => {
               @mouseleave="clearHighlight"
               :class="{ 'highlight-row': highlightedRow === rowIndex }">
               <td class="eliminar-columnas" >
-                <button @click="deleteRow(rowIndex)" id="boton-eliminar-columnas"></button>
+                <button @click="deleteRow(rowIndex)" class="boton-eliminar-columnas"></button>
               </td>
             <td v-for="(key, colIndex) in tableHeaders" :key="colIndex"
                 @mouseover="highlightCell(rowIndex, colIndex)"
@@ -232,7 +232,7 @@ table tr:nth-child(10n), tr:nth-child(10n-1), tr:nth-child(10n-2), tr:nth-child(
     align-items: center;
 
 }
-#boton-eliminar-columnas {
+.boton-eliminar-columnas {
     background-color: #ff0000;
     color: #ffffff;
     height: 2em;
