@@ -215,7 +215,7 @@ const handleFileChange = (event) => {
         <li>Si subes examenes de orina u otros fluidos, puede ser que interprete algunos valores (por ejemplo, podría poner Leucocitos urinarios en el campo de Leucos destinado a leucos de sangre, lo mismo para el pH urinario, neutrofilos en liquido peritoneal, etc)</li>
     </ul>
 
-    <p>Si pillas otro error, avísame por favor! -> <a href="mailto:dsm122n@gmail.com">dsm122n@gmail.com</a></p>
+    <p>Si pillas otro error, o tienes sugerencias para mejorar este programita avísame por favor! -> <a href="mailto:dsm122n@gmail.com">dsm122n@gmail.com</a></p>. El codigo está disponible en <a href="https://github.com/dsm122n/flujo_lab">GitHub</a>.
         </div>
     </div>
 </template>
