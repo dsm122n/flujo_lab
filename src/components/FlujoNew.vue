@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
-import { labResults  } from "../stores/labResultsStore.js";
+import { labResults } from "../stores/labResultsStore.js";
 import { LabResultClass } from "../models/LabResultsClass.js";
 
 const datitosLab = computed(() => labResults.value);
@@ -29,16 +29,9 @@ const clearHighlight = () => {
     highlightedColumn.value = null;
 };
 
-// onMounted(() => {
-//     fetch("http://localhost:3000/laboratorios")
-//         .then((response) => response.json())
-//         .then((data) => {
-//             datitosLab.value = data;
-//         })
-//         .catch((error) => {
-//             console.error(error);
-//         });
-// });
+// Define the table headers based on LabResultClass properties
+const tableHeaders = Object.keys(new LabResultClass());
+
 </script>
 
 <template>
@@ -49,18 +42,16 @@ const clearHighlight = () => {
             <table class="vertical" id="table-for-print">
                 <thead>
                     <tr>
-                        <th v-for="key in Object.keys(datitosLab[0].extractedData)" :key="key"> {{ key }}</th>
+                        <th v-for="key in tableHeaders" :key="key"> {{ key }}</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr 
-                        v-for="(item, rowIndex) in datitosLab" 
-                        :key="rowIndex"
-                        @mouseover="highlightRow(rowIndex)"
-                        @mouseleave="clearHighlight"
-                        :class="{ 'highlight-row': highlightedRow === rowIndex }">
+                    <tr v-for="(result, rowIndex) in datitosLab.value" :key="result.fileName"
+                    @mouseover="highlightRow(rowIndex)"
+                    @mouseleave="clearHighlight"
+                    :class="{ 'highlight-row': highlightedRow === rowIndex }">
                         <td 
-                            v-for="(value, colIndex) in Object.values(item.extractedData)" 
+                            v-for="(key, colIndex) in tableHeaders" 
                             :key="colIndex"
                             @mouseover="highlightCell(rowIndex, colIndex)"
                             @mouseleave="clearHighlight"
@@ -68,7 +59,7 @@ const clearHighlight = () => {
                                 'highlight-row': highlightedRow === rowIndex,
                                 'highlight-col': highlightedColumn === colIndex
                             }">
-                            {{ value }}
+                            {{ result.extractedData[key] || ' ' }}
                         </td>
                     </tr>
                 </tbody>
@@ -80,7 +71,6 @@ const clearHighlight = () => {
         <p>No hay resultados de laboratorio disponibles.</p>
     </div>
 </template>
-
 
 <style scoped>
 /* Everyone Else's Grid */

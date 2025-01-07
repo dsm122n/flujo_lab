@@ -6,22 +6,83 @@ import { labResults } from "../stores/labResultsStore.js";
 import { LabResultClass } from "../models/LabResultsClass.js";
 //const labResults = ref([]); // Almacena los resultados en formato JSON
 
-const nombreExamenes = [
-    "Creatinina","Lactato","Sodio (Na)","Potasio (K)","Cloro (Cl)","proBNP", "Calcio","Uremia","Nitrogeno ureico","Magnesio","Lactato", "Fosforo",
-    "Bilirrubina Total","Bilirrubina Directa","ASAT/GOT","ALAT/GPT","Gama GT","Fosfatasas Alcalinas",
-    "Troponina I", "LDH", "Albumina",
-    "Proteinas", "PCR", "Glucosa","Trigliceridos", "CK Total", "CK MB", "V.H.S.",
+// const nombreExamenes = [
+//     "Creatinina","Lactato","Sodio (Na)","Potasio (K)","Cloro (Cl)","proBNP", "Calcio","Uremia","Nitrogeno ureico","Magnesio","Lactato", "Fosforo",
+//     "Bilirrubina Total","Bilirrubina Directa","ASAT/GOT","ALAT/GPT","Gama GT","Fosfatasas Alcalinas",
+//     "Troponina I", "LDH", "Albumina",
+//     "Proteinas", "PCR", "Glucosa","Trigliceridos", "CK Total", "CK MB", "V.H.S.",
    
-    "Hematocrito", "Hemoglobina", "Recuento Hematíes", "VCM", "HCM", "CHCM", 
-    "Recuento Leucocitos", "Recuento de Plaquetas", "RDW", 
-    "Segmentados %", "Linfocitos %", "Monocitos %", "Basófilos %", 
-    "Eosinófilos %", "Eosinófilos", "Basófilos", "Segmentados", 
-    "Linfocitos", "Monocitos",
+//     "Hematocrito", "Hemoglobina", "Recuento Hematíes", "VCM", "HCM", "CHCM", 
+//     "Recuento Leucocitos", "Recuento de Plaquetas", "RDW", 
+//     "Segmentados %", "Linfocitos %", "Monocitos %", "Basófilos %", 
+//     "Eosinófilos %", "Eosinófilos", "Basófilos", "Segmentados", 
+//     "Linfocitos", "Monocitos",
 
-    "pH","pO2","pCO2","tCO2","HCO3-","BE (B)","sO2",
+//     "pH","pO2","pCO2","tCO2","HCO3-","BE (B)","sO2",
 
-    "INR","Tiempo de protrombina %","Tiempo de protrombina seg","TTPK"
-]
+//     "INR","Tiempo de protrombina %","Tiempo de protrombina seg","TTPK"
+// ]
+
+const LabEquivalence = {
+    // en pdf : en objeto para th tabla
+        "Creatinina" : "Creatinina",
+        "Lactato" : "Lactato",
+        "Sodio (Na)" : "Na+",
+        "Potasio (K)" : "K+",
+        "Cloro (Cl)" : "Cl-",
+        "proBNP" : "proBNP",
+        "Calcio" : "Ca",
+        "Uremia" : "Uremia",
+        "Nitrogeno ureico" : "BUN",
+        "Magnesio" : "Magnesio",
+        "Fosforo" : "Fosforo",
+        "Bilirrubina Total" : "Bili T",
+        "Bilirrubina Directa" : "Bili D",
+        "ASAT/GOT" : "ASAT/GOT",
+        "ALAT/GPT" : "ALAT/GPT",
+        "Gama GT" : "GamaGT",
+        "Fosfatasas Alcalinas" : "Fosfatasas Alcalinas",
+        "Troponina I" : "Troponina I",
+        "LDH" : "LDH",
+        "Albumina" : "Albumina",
+        "Proteinas" : "Proteinas",
+        "PCR" : "PCR",
+        "Glucosa" : "Glucosa",
+        "Trigliceridos" : "Trigliceridos",
+        "CK Total" : "CK Total",
+        "CK MB" : "CK-MB",
+        "V.H.S." : "VHS",
+        "Hematocrito" : "Hto",
+        "Hemoglobina" : "Hb",
+        "Recuento Hematíes" : "Recuento Hematíes",
+        "VCM" : "VCM",
+        "HCM" : "HCM",
+        "CHCM" : "CHCM",
+        "Recuento Leucocitos" : "Leucocitos",
+        "Recuento de Plaquetas" : "Plaquetas",
+        "RDW" : "RDW",
+        "Segmentados %" : "Segmentados %",
+        "Linfocitos %" : "Linfocitos %",
+        "Monocitos %" : "Monocitos %",
+        "Basófilos %" : "Basófilos %",
+        "Eosinófilos %" : "Eosinófilos %",
+        "Eosinófilos" : "Eosinófilos",
+        "Basófilos" : "Basófilos",
+        "Segmentados" : "Segmentados",
+        "Linfocitos" : "Linfocitos",
+        "Monocitos" : "Monocitos",
+        "pH" : "pH",
+        "pO2" : "pO2",
+        "pCO2" : "pCO2",
+        "HCO3-" : "HCO3",
+        "BE (B)" : "BE",
+        "sO2" : "sO2",
+        "INR" : "INR",
+        "Tiempo de protrombina %" : "TP%",
+        "Tiempo de protrombina seg" : "TP seg",
+        "TTPK" : "TTPK"
+    
+};
 
 const loadPdf = async (file) => {
     try {
@@ -46,8 +107,8 @@ const loadPdf = async (file) => {
 
                     if (match) {
                         const [_, datePart, timePart] = match; // Extract the matched groups
-                        console.log("Date:", datePart);
-                        console.log("Time:", timePart);
+                        //console.log("Date:", datePart);
+                        //console.log("Time:", timePart);
 
                         // Convert to JavaScript Date object
                         const [day, month, year] = datePart.split("-");
@@ -55,22 +116,25 @@ const loadPdf = async (file) => {
                         const dateObject = new Date(year, month - 1, day, hours, minutes, seconds);
                         extractedData.fecha = dateObject;
 
-                        console.log("JavaScript Date Object:", dateObject);
+                        // console.log("JavaScript Date Object:", dateObject);
                     }
                 }
 
                 // Procesa el texto de cada página para extraer los datos relevantes
-                console.log(`Texto de la página ${i}:`, pageText);
-                for (let examen of nombreExamenes) {
+                for (let examen of Object.keys(LabEquivalence)) {
 
+              
                     const regex = new RegExp(`${examen}\\s*[:]?\\s*(\\d+[.,]?\\d*\\s*\\*?)`, "i");
                     const match = pageText.match(regex);
 
+                    //console.log("Examen:", examen);
+                    //console.log("Match:", match);
+                    //console.log("lab equivalence:", LabEquivalence[examen]);
                     if (match) {
                         // Store the full matched value as a string, including * if present
-                        extractedData[examen] = match[1]; 
+                        extractedData[LabEquivalence[examen]] = match[1]; 
                         // delete blank spaces
-                        extractedData[examen] = extractedData[examen].replace(/\s/g, '');
+                        extractedData[LabEquivalence[examen]] = extractedData[LabEquivalence[examen]].replace(/\s/g, '');
 
                     }
                 }
@@ -83,12 +147,17 @@ const loadPdf = async (file) => {
                 fileName: file.name,
                 extractedData,
             });
-            console.log("Resultados de laboratorio:", labResults.value);
+            console.log("Resultados de laboratorio sin ordenar:", labResults.value);
+            // order by date all the lab results
+            labResults.value.sort((a, b) => a.extractedData.fecha - b.extractedData.fecha);
+            console.log("Resultados de laboratorio ordenados:", labResults.value);
         };
 
         fileReader.readAsArrayBuffer(file);
         console.log("Hola estos son los datitos lab desde el ingreso lab new");
+
         
+
     } catch (error) {
         console.error("Error al cargar el PDF:", error);
     }
@@ -175,5 +244,14 @@ button {
 button:disabled {
     background-color: #ddd;
     cursor: not-allowed;
+}
+input[type="file"] {
+    width: 200px;
+    height: 100px;
+    background-color: #75e8ff39;
+    border-radius: 1em;
+    align-items: center;
+    justify-content: center;
+    padding: 1em;
 }
 </style>
