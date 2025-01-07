@@ -54,12 +54,18 @@ const deleteRow = (index) => {
 <template>
   <h1>Flujo de Exámenes</h1>
   <div v-if="datitosLab.length > 0">
-    <div class="table-container">
+    <div class="table-container" id="table-container">
+      <p class="only-when-print" style="margin:0; padding: 0.25em;">Rut:_________________ Nombre:_____________________________________________________________________________ Fecha:____/____/____</p>
       <table class="vertical" id="table-for-print">
         <thead>
           <tr>
             <th class="eliminar-columnas" >Eliminar --> </th>
             <th v-for="key in tableHeaders" :key="key"> {{ key }} </th>
+            <th style="height: 1.5em;"></th>
+            <th style="height: 1.5em;"></th>
+            <th style="height: 1.5em;"></th>
+            <th style="height: 1.5em;"></th>
+            <th style="height: 1.5em;"></th>
           </tr>
         </thead>
         <tbody>
@@ -79,6 +85,11 @@ const deleteRow = (index) => {
                 }">
               {{ key === 'Fecha' ? formatDate(result.extractedData[key]) : (result.extractedData[key] || ' ') }}
             </td>
+            <td style="height: 1.5em;"></td>
+            <td style="height: 1.5em;"></td>
+            <td style="height: 1.5em;"></td>
+            <td style="height: 1.5em;"></td>
+            <td style="height: 1.5em;"></td>
           </tr>
         </tbody>
       </table>
@@ -90,6 +101,11 @@ const deleteRow = (index) => {
 </template>
 
 <style scoped>
+
+.only-when-print {
+    display: none;
+    visibility: hidden;
+}
 
 @supports (display: grid) {
   .vertical {
@@ -131,6 +147,8 @@ const deleteRow = (index) => {
 .table-container {
   overflow-x: auto;
   width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 table { 
@@ -173,12 +191,19 @@ table tr:nth-child(10n), tr:nth-child(10n-1), tr:nth-child(10n-2), tr:nth-child(
 }
 
 @media print {
+    .only-when-print {
+        display: block;
+        visibility: visible;
+    }
     table {
         page-break-inside: auto;
-        font-size: 12pt;
+        font-size: 8pt;
         background-color: #ffffff;
         color: #000000;
-        border-collapse: collapse;
+        border-collapse: separate;
+        border-spacing: 0;
+        margin: 0; /* Adjust margins to be stretched */
+        width: 100%; /* Ensure the table stretches to full width */
     }
 
     thead {
@@ -189,7 +214,7 @@ table tr:nth-child(10n), tr:nth-child(10n-1), tr:nth-child(10n-2), tr:nth-child(
         page-break-inside: avoid; /* Allow rows to break across pages */
     }
     th, td {
-        border: 1px solid black;
+        border: 0.5px solid black;
         background-color: #ffffff;
         color: #000000;
     }

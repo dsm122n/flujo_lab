@@ -6,9 +6,13 @@ import IngresoLabNew from './components/IngresoLabNew.vue'
 
 // print content on FlujoNew
 const print = () => {
-  const printContent = document.getElementById('table-for-print').outerHTML;
+  // open new page with table content and print with print.css styling
+
+  const printContent = document.getElementById('table-container').outerHTML;
   const originalContent = document.body.innerHTML;
-  document.body.innerHTML = `<table>${printContent}</table>`;
+
+  document.body.innerHTML = `${printContent}`;
+  
   window.print();
   document.body.innerHTML = originalContent;
 };
