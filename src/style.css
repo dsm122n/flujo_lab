@@ -83,4 +83,7 @@ button:focus-visible {
     color: #213547;
     border-color: #213547;
   }
+  .eliminar-columnas{
+    color: #000000;
+  }
 }

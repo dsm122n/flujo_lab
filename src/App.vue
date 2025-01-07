@@ -4,15 +4,11 @@ import FlujoNew from './components/FlujoNew.vue'
 import IngresoLab from './components/IngresoLab.vue'
 import IngresoLabNew from './components/IngresoLabNew.vue'
 
-
-
-
-
 // print content on FlujoNew
 const print = () => {
   const printContent = document.getElementById('table-for-print').outerHTML;
   const originalContent = document.body.innerHTML;
-  document.body.innerHTML = printContent;
+  document.body.innerHTML = `<table>${printContent}</table>`;
   window.print();
   document.body.innerHTML = originalContent;
 };
@@ -21,7 +17,7 @@ const print = () => {
 
 <template>
   <IngresoLabNew />
-  <button @click="print">Imprimir flujo de exámenes</button>
+  <button @click="print" id="print-button">Imprimir flujo de exámenes</button>
   <FlujoNew />
   
 </template>

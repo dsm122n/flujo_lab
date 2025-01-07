@@ -1,15 +1,16 @@
 export class LabResultClass {
     constructor() {
+        //apareceran en la tabla en el órden que aquí se señale
         this["Fecha"] = null;
         this["Creatinina"] = null;
-        this["Lactato"] = null;
-        this["Na+"] = null;
-        this["K+"] = null;
-        this["Cl-"] = null;
-        this["proBNP"] = null;
-        this["Ca"] = null;
-        this["Uremia"] = null;
         this["BUN"] = null;
+        this["Uremia"] = null;
+        this["Lactato"] = null;
+        this["PCR"] = null;
+        this["Na"] = null;
+        this["K"] = null;
+        this["Cl"] = null;
+        this["Ca"] = null;
         this["Magnesio"] = null;
         this["Fosforo"] = null;
         this["Bili T"] = null;
@@ -18,19 +19,24 @@ export class LabResultClass {
         this["ALAT/GPT"] = null;
         this["GamaGT"] = null;
         this["Fosfatasas Alcalinas"] = null;
-        this["Troponina I"] = null;
         this["LDH"] = null;
+        this["Troponina I"] = null;
+        this["proBNP"] = null;
         this["Albumina"] = null;
         this["Proteinas"] = null;
-        this["PCR"] = null;
         this["Glucosa"] = null;
         this["Trigliceridos"] = null;
+        this["Hb"] = null;
+        this["Hto"] = null;
+        this["VCM"] = null;
+        this["HCM"] = null;
+        this["CHCM"] = null;
         this["RDW"] = null;
-        this["Segmentados %"] = null;
-        this["Linfocitos %"] = null;
-        this["Monocitos %"] = null;
-        this["Basófilos %"] = null;
-        this["Eosinófilos %"] = null;
+        // this["Segmentados %"] = null;
+        // this["Linfocitos %"] = null;
+        // this["Monocitos %"] = null;
+        // this["Basófilos %"] = null;
+        // this["Eosinófilos %"] = null;
         this["Eosinófilos"] = null;
         this["Basófilos"] = null;
         this["Segmentados"] = null;

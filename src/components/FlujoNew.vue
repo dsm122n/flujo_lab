@@ -1,13 +1,10 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { labResults } from "../stores/labResultsStore.js";
 import { LabResultClass } from "../models/LabResultsClass.js";
 
-const datitosLab = computed(() => labResults.value);
+const datitosLab = ref([]);
 
-console.log(datitosLab);
-console.log("Hola estos son los datitos lab");
-console.log(datitosLab.length);
 const highlightedRow = ref(null);
 const highlightedColumn = ref(null);
 
@@ -32,48 +29,68 @@ const clearHighlight = () => {
 // Define the table headers based on LabResultClass properties
 const tableHeaders = Object.keys(new LabResultClass());
 
+// Watch for changes in labResults and update datitosLab
+watch(labResults, (newVal) => {
+    datitosLab.value = newVal;
+    console.log("Updated datitosLab:", datitosLab.value);
+}, { immediate: true });
+
+// Computed property to format the date
+const formatDate = (date) => {
+    if (!date) return ' ';
+    const d = new Date(date);
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const year = d.getFullYear();
+    return `${day}/${month}/${year}`;
+};
+
+// Function to delete a row
+const deleteRow = (index) => {
+    labResults.value.splice(index, 1);
+};
 </script>
 
 <template>
-    <h1>Flujo de Exámenes</h1>
-
-    <div v-if="datitosLab.length > 0">
-        <div class="table-container">
-            <table class="vertical" id="table-for-print">
-                <thead>
-                    <tr>
-                        <th v-for="key in tableHeaders" :key="key"> {{ key }}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(result, rowIndex) in datitosLab.value" :key="result.fileName"
-                    @mouseover="highlightRow(rowIndex)"
-                    @mouseleave="clearHighlight"
-                    :class="{ 'highlight-row': highlightedRow === rowIndex }">
-                        <td 
-                            v-for="(key, colIndex) in tableHeaders" 
-                            :key="colIndex"
-                            @mouseover="highlightCell(rowIndex, colIndex)"
-                            @mouseleave="clearHighlight"
-                            :class="{ 
-                                'highlight-row': highlightedRow === rowIndex,
-                                'highlight-col': highlightedColumn === colIndex
-                            }">
-                            {{ result.extractedData[key] || ' ' }}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+  <h1>Flujo de Exámenes</h1>
+  <div v-if="datitosLab.length > 0">
+    <div class="table-container">
+      <table class="vertical" id="table-for-print">
+        <thead>
+          <tr>
+            <th class="eliminar-columnas" >Eliminar --> </th>
+            <th v-for="key in tableHeaders" :key="key"> {{ key }} </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(result, rowIndex) in datitosLab" :key="result.fileName"
+              @mouseover="highlightRow(rowIndex)"
+              @mouseleave="clearHighlight"
+              :class="{ 'highlight-row': highlightedRow === rowIndex }">
+              <td class="eliminar-columnas" >
+                <button @click="deleteRow(rowIndex)" id="boton-eliminar-columnas"></button>
+              </td>
+            <td v-for="(key, colIndex) in tableHeaders" :key="colIndex"
+                @mouseover="highlightCell(rowIndex, colIndex)"
+                @mouseleave="clearHighlight"
+                :class="{ 
+                  'highlight-row': highlightedRow === rowIndex,
+                  'highlight-col': highlightedColumn === colIndex
+                }">
+              {{ key === 'Fecha' ? formatDate(result.extractedData[key]) : (result.extractedData[key] || ' ') }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-
-    <div v-else>
-        <p>No hay resultados de laboratorio disponibles.</p>
-    </div>
+  </div>
+  <div v-else>
+    <p>No hay resultados de laboratorio disponibles.</p>
+  </div>
 </template>
 
 <style scoped>
-/* Everyone Else's Grid */
+
 @supports (display: grid) {
   .vertical {
     display: grid;
@@ -88,7 +105,6 @@ const tableHeaders = Object.keys(new LabResultClass());
   }
 }
 
-/* Flex - Cross Browser CSS */
 .vertical thead {
   display: flex;
   flex-shrink: 0;
@@ -109,6 +125,7 @@ const tableHeaders = Object.keys(new LabResultClass());
   display: block;
   padding: 0 1em 0 1em;
     min-width: max-content;
+    min-height: 1.5em; /* Set a minimum height for table cells */
 }
 
 .table-container {
@@ -121,7 +138,6 @@ table {
 }
 table td {
   border: 1px solid black; 
-  background-color: #ffffff00;
 }
 table th {
     text-wrap: false;
@@ -131,36 +147,74 @@ table th {
   color: rgb(0, 0, 0);
   text-align: left;
 }
-/* change background in groups of 5 */
 table tr:nth-child(10n), tr:nth-child(10n-1), tr:nth-child(10n-2), tr:nth-child(10n-3), tr:nth-child(10n-4) {
   background-color: #d2d2d2;
   color: #000;
 }
-/* on hover, change background color of columns and rows */
+
+
+
 .highlight-row {
-  background-color: #ffa2e577; /* Light pink */
+  background-color: #ffa2e577; 
 }
 
 .highlight-col {
-  background-color: #00ffbb33; /* Light purple */
+  background-color: #00ffbb33; 
 }
 
 @media (preffers-color-scheme: light) {
   .highlight-row {
-    background-color: #ff77d877; /* Light pink */
+    background-color: #ff77d877; 
   }
 
   .highlight-col {
-    background-color: #1ff0b833; /* Light purple */
+    background-color: #1ff0b833; 
   }
 }
 
 @media print {
     table {
         page-break-inside: auto;
-        font-size: 10pt;
-        background-color: #000000;
+        font-size: 12pt;
+        background-color: #ffffff;
+        color: #000000;
+        border-collapse: collapse;
     }
 
+    thead {
+        display: table-header-group; /* Ensure thead repeats on each page */
+        position: sticky;
+    }
+    tbody tr {
+        page-break-inside: avoid; /* Allow rows to break across pages */
+    }
+    th, td {
+        border: 1px solid black;
+        background-color: #ffffff;
+        color: #000000;
+    }
+    .eliminar-columnas {
+        visibility: hidden;
+    }
+
+}
+.eliminar-columnas {
+    background-color: #ffc1c100;
+    color : #ffffff;
+    height: 2.5em;
+    /* centrar texto */
+    display: flex;
+    align-items: center;
+
+}
+#boton-eliminar-columnas {
+    background-color: #ff0000;
+    color: #ffffff;
+    height: 2em;
+    /* centrar */
+    display: block;
+    margin: auto;
+    align-items: center;
+    justify-content: center;
 }
 </style>
