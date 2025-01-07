@@ -17,13 +17,25 @@ const print = () => {
   document.body.innerHTML = originalContent;
 };
 
+
 </script>
 
 <template>
   <IngresoLabNew />
   <button @click="print" id="print-button">Imprimir flujo de exámenes</button>
   <FlujoNew />
-  
+  <div style="display: flex; 
+    position: absolute; top: 0; right: 0; padding: 0px; height: 150px; background: #1cff86; border-radius: 5px;" class="only-desktop"
+    >
+        <p style="width: 175px; padding: 5px 5px 0px 5px; margin: 0px; color: rgb(0, 0, 0); font-size: 12pt; align-self: center;
+        "><b>Si te fue útil, puedes ayudarme con mi adicción por el cafecito </b>en el siguiente código QR 🙂 (Atte. el interno informático)</p>
+        <p style="width: 30px; padding: 0px; margin: 0px; color: rgb(0, 0, 0); font-size: 20pt; 
+        align-self: center;  "
+        >→</p>
+        <img src="./assets/qr.png" style="height: 150px !important;width: 150px !important;">
+
+    </div>
+    
 </template>
 
 <style>
