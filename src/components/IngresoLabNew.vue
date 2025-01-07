@@ -164,7 +164,7 @@ const handleFileChange = (event) => {
 </script>
 
 <template>
-    <h1>Ingreso de lab new</h1>
+    <h1>Ingreso de datos</h1>
     <div class="container">
         <div class="container-ingresos">
             <label for="link">Ingrese link aquí: </label>
