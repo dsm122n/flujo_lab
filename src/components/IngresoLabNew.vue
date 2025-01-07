@@ -203,12 +203,16 @@ const handleFileChange = (event) => {
     <p>Puedes <span class="funcionalidad">añadirlos</span> de forma individual o en grupo. Los archivos se ordenarán por fecha del examen.<br>
     Si deseas <span class="funcionalidad">eliminar</span> un día de laboratorio, puedes hacerlo con el botón rojo <button class="boton-eliminar-columnas"></button> 
     desde la tabla de resultados.<br>
-    Luego puedes <span class="funcionalidad">imprimir</span> la tabla de resultados con el botón <span class="highlight">"Imprimir flujo de exámenes"</span>.</p>
+    Luego puedes <span class="funcionalidad">imprimir</span> la tabla de resultados con el botón <span class="highlight">"Imprimir flujo de exámenes"</span>. <br>
+        Al final de la tabla incluí unos espacios en blanco para que puedas agregar exámenes adicionales.
+</p>
+    
 
     <p><span class="important">Nota:</span> todavía tiene un par de <span class="important">errores</span>, por ejemplo:</p>
     <ul>
         <li>No puede imprimir más de una página :( habría que ingresar de a poco los exámenes para que no superen la página.</li>
         <li>Algunos exámenes no los lee (por ejemplo, TP seg y TP%).</li>
+        <li>Si subes examenes de orina u otros fluidos, puede ser que interprete algunos valores (por ejemplo, podría poner Leucocitos urinarios en el campo de Leucos destinado a leucos de sangre, lo mismo para el pH urinario, neutrofilos en liquido peritoneal, etc)</li>
     </ul>
 
     <p>Si pillas otro error, avísame por favor! -> <a href="mailto:dsm122n@gmail.com">dsm122n@gmail.com</a></p>

@@ -65,7 +65,6 @@ const deleteRow = (index) => {
             <th style="height: 1.5em;"></th>
             <th style="height: 1.5em;"></th>
             <th style="height: 1.5em;"></th>
-            <th style="height: 1.5em;"></th>
           </tr>
         </thead>
         <tbody>
@@ -85,7 +84,6 @@ const deleteRow = (index) => {
                 }">
               {{ key === 'Fecha' ? formatDate(result.extractedData[key]) : (result.extractedData[key] || ' ') }}
             </td>
-            <td style="height: 1.5em;"></td>
             <td style="height: 1.5em;"></td>
             <td style="height: 1.5em;"></td>
             <td style="height: 1.5em;"></td>
